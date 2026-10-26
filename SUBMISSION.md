@@ -24,7 +24,7 @@ No LLM is called. get_meta.llm_rule is none. A counter that was already set at l
 
 The page submits writeContract, shows the tx hash, polls getTransaction / getLastRoundData until ACCEPTED, then reloads the purse with readContract. A validator that stops after quorum is not treated as a revert. A GenVM traceback is.
 
-Live app: run `npm run dev` in the repo (Studionet). A hosted URL is not attached yet.
+Live app: https://wavehold.vercel.app
 GitHub: https://github.com/LIBRAPHILIP/wavehold
 Explorer: https://explorer-studio.genlayer.com/address/0x32450Bf1af6538c80A5eE5142D2bE66fdD871dF0
 
@@ -49,7 +49,11 @@ https://github.com/LIBRAPHILIP/wavehold
 https://explorer-studio.genlayer.com/address/0x32450Bf1af6538c80A5eE5142D2bE66fdD871dF0
 ```
 
-**Live app** — the Vercel URL, evidence type Other.
+**Live app** — evidence type Other
+
+```
+https://wavehold.vercel.app
+```
 
 Do not submit a unit-test fixture as a live ban. `deployments/live-check.json` is the on-chain read.
 

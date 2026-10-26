@@ -8,3 +8,5 @@ __pycache__/
 *.pyc
 deploy/deployer.local.json
 .DS_Store
+
+.vercel

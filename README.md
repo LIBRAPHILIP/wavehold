@@ -15,7 +15,7 @@ python -m unittest tests.test_rules
 npm run dev
 ```
 
-Studionet is chain 61999. The deployed contract is `0x32450Bf1af6538c80A5eE5142D2bE66fdD871dF0` ([explorer](https://explorer-studio.genlayer.com/address/0x32450Bf1af6538c80A5eE5142D2bE66fdD871dF0)). The app can create an ephemeral account and fund it there. Bradbury needs a wallet that already holds testnet GEN.
+Studionet is chain 61999. The deployed contract is `0x32450Bf1af6538c80A5eE5142D2bE66fdD871dF0` ([explorer](https://explorer-studio.genlayer.com/address/0x32450Bf1af6538c80A5eE5142D2bE66fdD871dF0)). The app is at https://wavehold.vercel.app. It can create an ephemeral account and fund it there. Bradbury needs a wallet that already holds testnet GEN.
 
 Deploy:
 
