@@ -1,0 +1,11 @@
+{
+  "primitive": "Wavehold",
+  "version": "1.0.2-wavehold",
+  "address": "0x32450Bf1af6538c80A5eE5142D2bE66fdD871dF0",
+  "chainId": 61999,
+  "network": "studionet",
+  "deployTx": "0x55be123960f852c3b196757684b8456ff25ae570eca6588ef60e9a5a23334f58",
+  "explorer": "https://explorer-studio.genlayer.com/address/0x32450Bf1af6538c80A5eE5142D2bE66fdD871dF0",
+  "deployedAt": "2026-10-26T02:25:12.391Z",
+  "deployer": "0x2B96611166C2787f7B9115a11d08a7D360A81F3b"
+}

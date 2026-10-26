@@ -1,0 +1,23 @@
+{
+  "name": "wavehold",
+  "version": "1.0.2",
+  "private": true,
+  "type": "module",
+  "description": "Wavehold holds a tournament prize on GenLayer until Valve or Lichess ban counters stay put.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "node --test tests/rules.node.test.js",
+    "test:py": "python -m unittest tests/test_rules.py",
+    "deploy:studionet": "node scripts/deploy.mjs studionet",
+    "verify:live": "node scripts/verify-live.mjs"
+  },
+  "dependencies": {
+    "genlayer-js": "^1.1.8",
+    "viem": "^2.21.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.7"
+  }
+}

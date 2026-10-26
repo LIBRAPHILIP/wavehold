@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.vercel/
+.env
+.env.*
+__pycache__/
+.pytest_cache/
+*.pyc
+deploy/deployer.local.json
+.DS_Store

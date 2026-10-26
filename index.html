@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Wavehold — prize escrow for public ban records</title>
+    <meta
+      name="description"
+      content="Wavehold holds a tournament prize on GenLayer and releases it only if Valve or Lichess ban counters have not increased."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,680&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+  </head>
+  <body>
+    <header class="top">
+      <a class="mark" href="#open">Wavehold</a>
+      <p class="mark-note">Ban-record escrow · GenLayer</p>
+      <nav>
+        <a href="#open">Open a purse</a>
+        <a href="#desk">Desk</a>
+        <a href="#spec">Rules</a>
+        <a id="githubLink" href="https://github.com/LIBRAPHILIP/wavehold">GitHub</a>
+      </nav>
+      <div class="session">
+        <label class="sr" for="networkSelect">Network</label>
+        <select id="networkSelect">
+          <option value="studionet">Studionet</option>
+          <option value="bradbury">Bradbury</option>
+          <option value="localnet">Localnet</option>
+        </select>
+        <button type="button" class="ghost" id="btnEphemeral">Ephemeral account</button>
+        <button type="button" class="solid" id="btnWallet">Connect wallet</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <p class="kicker">Gaming · Cheat Detection</p>
+        <h1>Hold the prize until the public ban record stays clean.</h1>
+        <p class="lede">
+          Community cups pay the winner, then a VAC wave or a Lichess closure lands days later.
+          The organizer was holding both the money and the only copy of the screenshot.
+          Wavehold keeps the GEN in an Intelligent Contract. Validators re-fetch Valve’s or
+          Lichess’s own record. The purse moves when those counters have not increased.
+        </p>
+        <ul class="points">
+          <li><strong>Trust problem.</strong> Custody of a prize, and proof of a later ban, sit with one person.</li>
+          <li><strong>Live record.</strong> Steam profile XML and the Lichess user API. The contract builds the URL.</li>
+          <li><strong>No model vote.</strong> An LLM is not called. Comments on the page are not evidence.</li>
+          <li><strong>Full lifecycle.</strong> This page submits the transaction and waits through validator rounds.</li>
+        </ul>
+      </section>
+
+      <section class="sheet" id="connect">
+        <div class="sheet-head">
+          <h2>Contract</h2>
+          <p id="sessionLine">No account yet.</p>
+        </div>
+        <div class="grid two">
+          <label>
+            Wavehold address
+            <input id="contractAddress" spellcheck="false" autocomplete="off" placeholder="0x… deployed Wavehold" />
+          </label>
+          <div class="stack">
+            <button type="button" class="ghost" id="btnUseDeployed">Use deployed address</button>
+            <button type="button" class="ghost" id="btnDeploy">Deploy this source</button>
+            <a id="explorerLink" href="#" target="_blank" rel="noreferrer">Explorer</a>
+          </div>
+        </div>
+        <p class="meta-line" id="metaLine">Meta loads after the address is set.</p>
+        <p class="warn" id="healthLine" hidden></p>
+      </section>
+
+      <section class="layout">
+        <form class="sheet" id="open">
+          <div class="sheet-head">
+            <h2>Open a purse</h2>
+            <p>The organizer names the roster and the payee. Wavehold does not pick the match winner.</p>
+          </div>
+          <label>
+            Authority
+            <select id="authority">
+              <option value="steam_vac">Steam VAC flag — profile XML vacBanned</option>
+              <option value="steam_roster">Steam VAC plus the game-ban banner</option>
+              <option value="lichess">Lichess tosViolation flag</option>
+            </select>
+          </label>
+          <label>
+            Game
+            <input id="game" maxlength="80" required placeholder="CS2 Friday cup" />
+          </label>
+          <label>
+            Note
+            <input id="note" maxlength="280" placeholder="Final, roster of the winning side" />
+          </label>
+          <label>
+            Roster
+            <textarea id="subjects" rows="3" required placeholder="One SteamID64, or one Lichess id"></textarea>
+          </label>
+          <p class="fine" id="subjectHelp">17-digit SteamID64 starting with 7656. A profile URL is rejected.</p>
+          <ul class="urls" id="sourcePreview"></ul>
+          <div class="grid two">
+            <label>
+              Payee
+              <input id="payee" spellcheck="false" autocomplete="off" placeholder="0x… winner" />
+            </label>
+            <label>
+              Hold (seconds)
+              <input id="holdSecs" inputmode="numeric" value="604800" />
+            </label>
+          </div>
+          <label class="check">
+            <input id="demoHold" type="checkbox" />
+            Demo hold of 120 seconds. A real cup should use days, so a ban wave can land.
+          </label>
+          <label>
+            Prize (GEN)
+            <input id="amount" inputmode="decimal" value="0.05" />
+          </label>
+          <p class="fine">Minimum 0.01 GEN. A protest later locks exactly 10% more. Finder fee on a real ban increase is 10%.</p>
+          <button type="submit" class="solid" id="btnOpen">Open purse</button>
+          <p class="form-error" id="formError" role="alert"></p>
+        </form>
+
+        <section class="sheet" id="life" aria-live="polite">
+          <div class="sheet-head">
+            <h2>Transaction</h2>
+            <p id="lifePhase">No transaction yet.</p>
+          </div>
+          <p id="lifeMessage">Open a purse, lock the baseline, or settle one. The hash and validator rounds appear here. They are read from the network.</p>
+          <p><a id="lifeTx" href="#" hidden target="_blank" rel="noreferrer">View transaction</a></p>
+          <dl id="lifeFacts"></dl>
+        </section>
+      </section>
+
+      <section class="sheet" id="desk">
+        <div class="sheet-head">
+          <h2>Desk</h2>
+          <button type="button" class="ghost" id="btnRefresh">Refresh</button>
+        </div>
+        <div id="purseList">
+          <p class="fine">No purses loaded.</p>
+        </div>
+      </section>
+
+      <section class="sheet" id="spec">
+        <div class="sheet-head">
+          <h2>What the contract decides</h2>
+          <p>Settlement is a counter comparison. The page text below is the same rule as the source.</p>
+        </div>
+        <ol class="steps">
+          <li><strong>Open.</strong> GEN is escrowed. Status is OPEN. Cancel returns it to the organizer.</li>
+          <li><strong>Lock.</strong> Validators fetch the authority URL and store the counters. Status becomes HOLDING. The release time is now plus the hold.</li>
+          <li><strong>Protest.</strong> Anyone can lock 10% of the prize as a bond. That does not ask a model if someone cheated. It waits for the next read.</li>
+          <li><strong>Recheck.</strong> A higher counter forfeits. The organizer receives 90%. The protestor, or the caller if there is no protest, receives 10% and the bond comes back. A failed fetch stays in the contract.</li>
+          <li><strong>Release.</strong> At or after the hold, a clean re-read pays the payee. A false protest’s bond is paid to the payee as well. An unreadable source does not release.</li>
+          <li><strong>Recover.</strong> 24 hours after the hold, if the source is still unreadable, the organizer can take the prize back. That status is source unavailable. It is not a ban finding.</li>
+        </ol>
+        <h3>Authorities</h3>
+        <ul class="points">
+          <li><strong>steam_vac.</strong> <code>https://steamcommunity.com/profiles/&lt;id&gt;/?xml=1</code> and the <code>vacBanned</code> tag. Friends-only profiles still publish this tag.</li>
+          <li><strong>steam_roster.</strong> The same flag, plus VAC and game-ban counts inside the <code>profile_ban_status</code> element Valve renders. Text outside that element is ignored. If the element is missing, the read fails closed.</li>
+          <li><strong>lichess.</strong> <code>https://lichess.org/api/user/&lt;id&gt;</code> and <code>tosViolation: true</code>. Lichess uses that flag for fair-play closures and for other Terms-of-Service closures. A player who closes an account without that flag does not forfeit the purse.</li>
+        </ul>
+        <h3>Limits</h3>
+        <ul class="points">
+          <li>The organizer chooses the roster and the payee. Wavehold does not replay the match.</li>
+          <li>A ban that already exists at lock is history. Only an increase during the hold forfeits.</li>
+          <li>Steam’s XML flag is a VAC ban. It is not a CS game ban. Use steam_roster for the banner Valve is currently showing.</li>
+          <li>Old VAC bans can remain in the XML after Valve removes the red banner from the profile page.</li>
+          <li>An unreadable profile sticks the funds until a later read works, or until recovery after the grace period.</li>
+        </ul>
+      </section>
+    </main>
+
+    <footer>
+      <p>Wavehold 1.0.2 · Studionet chain 61999 · LLM rule: none</p>
+    </footer>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

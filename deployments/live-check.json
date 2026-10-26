@@ -1,0 +1,14 @@
+{
+  "address": "0x32450Bf1af6538c80A5eE5142D2bE66fdD871dF0",
+  "purseId": "0",
+  "authority": "steam_vac",
+  "subject": "76561197960287930",
+  "vacBanned": 0,
+  "tosViolation": -1,
+  "source": "https://steamcommunity.com/profiles/76561197960287930/?xml=1",
+  "status": "RELEASED",
+  "openHash": "0x1050814d586731c03333d5a24ddfcbc217c6de7f9d14e4e51afb86fef2215eb8",
+  "lockHash": "0x402f9ed1e7b1f9897f4b6c3b08ad1d68564a1fb0051b71204f2f578c71066206",
+  "releaseHash": "0xee3df56ac39a1126d6693feec7aa413133579212c890f131a81e7c539abd4f37",
+  "checkedAt": "2026-10-26T02:27:40.631Z"
+}
